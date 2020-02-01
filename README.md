@@ -1,8 +1,11 @@
 # AB test selector
 
-Consistently assigns ids/keys to A or B group for A/B testing. An id may be user, session, request, etc.
+Consistently assigns ids/keys to A or B group for A/B testing. An id may be user, session, request, etc.  
+This implementation is simple to integrate and fast, avoiding delays and preventing users from randomly changing groups and polluting/skewing results.
 
-Groups ids/keys can be utilized for A/B selection in multi-tenant system where testing to a subset of tenants is desired. Groups are also useful for monotonically increasing the A/B test treatment population size, i.e., start with a small subset to validate, then increase over time.
+Tenant/group ids/keys can be utilized for A/B selection in multi-tenant system where testing a subset of tenants is desired. Groups are also useful for monotonically increasing the size of population under test. Best practice is to initially start with a small subset to validate no significant negative effects and then increasing to full population.
+
+This implementation does not need any remote request to select A/B. Remote requests will delay the response to the user and it might (will occasionally) fail. When failure, the user might (will 50% of the time) change groups which pollutes/skews the results unpredictably.
 
 By convention, A should be old treatment, B should be the new treatment for simplicity and consistency. Not required though.
 
