@@ -52,8 +52,8 @@ If statistical significance is achieved and B wins, set the idBonly or groupBonl
 
 Partial configuration will use defaults for unspecified properties.  
 
-There are getEnabled() and setEnabled(boolean) methods.
-The getConfiguration() and setConfiguration(config) methods allow setting full or partial configuration dynamically while executing.
+There are getEnabled() and setEnabled(boolean) methods.  
+The getConfiguration() and setConfiguration(config) methods allow setting full or partial configuration dynamically while executing.  
 
 Listed above in order of evaluation precedence, first definitive resolution is returned.  
 The precedence is hard-coded, changing the order here does not change the precedence.  
@@ -76,19 +76,13 @@ if (ab.getAB(userId) == 'B') {
 
 ## Switch to B for all users if/when B wins
 
-```javascript
-import ABTestSelector from 'ab-test-selector'
+Dynamically switch all users to B treatment
 
-const ab = new ABTestSelector({
+```javascript
+ab.setConfiguration({
   idBonly: ['ALL'], // either this line or the other line
   groupBonly: ['ALL'], // either this line or the other line
 })
-
-if (ab.getAB(userId) == 'B') {
-  computeOrShowTreatmentB() // change this to call your application code
-} else {
-  computeOrShowTreatmentA() // change this to call your application code
-}
 ```
 
 

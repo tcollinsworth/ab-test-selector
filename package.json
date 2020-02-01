@@ -1,6 +1,6 @@
 {
   "name": "ab-test-selector",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Consistently assigns by argument to A or B if enabled, and set to ALL or argument in include list and not in exclude list",
   "main": "index.js",
   "scripts": {
