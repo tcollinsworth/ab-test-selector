@@ -1,8 +1,12 @@
 # AB test selector
 
 Consistently assigns ids to A or B group for A/B testing.
+
 By convention, A should be old treatment, B should be the new treatment for simplicity and consistency. Not required though.
+
 By default all users are included in the AB test and selected for B by (hash(id) % 2 ? 'B' : 'A')
+
+"Data Trumps Intuition" "significant learning and return-on-investment (ROI) are seen when development teams listen to their customers, not to the Highest Paid Person’s Opinion (HiPPO)​", [ACM video presentation](http://videolectures.net/kdd07_kohavi_pctce/) (Flash) referencing Amazon and Microsoft controlled experiments - startling results that were very surprising.​ Political and economic environment can affect results, necessary to use A/B testing to determine causality. Amazon observed approximately a 1% drop in revenue per 100mS increase in page load times.
 
 ## Requirements
 
@@ -10,10 +14,10 @@ Node 10+
 
 ## Performance
 
-On 2019 HP x360 Spectre with Ubuntu 18.04.3 64 bit
+On 2019 HP x360 Spectre with Ubuntu 18.04.3 64 bit  
 Intel® Core™ i7-8565U CPU @ 1.80GHz × 8
 
-~266K AB selections / second
+~266K AB selections / second  
 ~4 microseconds each
 
 ## Getting started
