@@ -1,0 +1,38 @@
+{
+  "name": "ab-test-selector",
+  "version": "1.0.0",
+  "description": "Consistently assigns by argument to A or B if enabled, and set to ALL or argument in include list and not in exclude list",
+  "main": "index.js",
+  "scripts": {
+    "watchUnit": "NODE_ENV=DEBUG ava --fail-fast -v **/__tests__/**/*test*.js --watch",
+    "ava": "ava",
+    "test": "ava --fail-fast -v __tests__/*tests.js",
+    "watchLint": "esw . --ext=js --ignore-pattern '**/__tests__' --ignore-path .gitignore --fix --watch",
+    "lint": "eslint . --ext=js --ignore-pattern '**/__tests__' --ignore-path .gitignore --fix"
+  },
+  "keywords": [
+    "ab",
+    "test"
+  ],
+  "engines": {
+    "node": ">=0.10"
+  },
+  "esm": {
+    "force": true,
+    "mode": "auto"
+  },
+  "author": "Troy Collinsworth",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "md5": "^2.2.1"
+  },
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-watch": "^6.0.1",
+    "ignore-styles": "^5.0.1"
+  }
+}
