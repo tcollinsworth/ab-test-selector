@@ -46,6 +46,8 @@ Configuration options with defaults that can be passed to the constructor.
 }
 ```
 
+Ideally, expose/integrate configuration via environment variables following [12 Factor App](https://12factor.net/) or via central Service Discovery/configuration (etcd, consul, zookeeper, RDBMS, etc.) or REST endpoints to allow dynamically changing configuring while the system is running.
+
 If statistical significance is achieved and B wins, set the idBonly or groupBonly to ['ALL'] to route all users to the B treatment until the implementation is updated to remove the A/B test selector.
 
 Partial configuration will use defaults for unspecified properties.  
@@ -71,6 +73,24 @@ if (ab.getAB(userId) == 'B') {
   computeOrShowTreatmentA() // change this to call your application code
 }
 ```
+
+## Switch to B for all users if/when B wins
+
+```javascript
+import ABTestSelector from 'ab-test-selector'
+
+const ab = new ABTestSelector({
+  idBonly: ['ALL'], // either this line or the other line
+  groupBonly: ['ALL'], // either this line or the other line
+})
+
+if (ab.getAB(userId) == 'B') {
+  computeOrShowTreatmentB() // change this to call your application code
+} else {
+  computeOrShowTreatmentA() // change this to call your application code
+}
+```
+
 
 ## AB only some user IDs, others all get A
 
