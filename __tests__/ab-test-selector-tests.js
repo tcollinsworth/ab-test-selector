@@ -4,10 +4,12 @@ import ABTestSelector from '../index'
 
 const defaultConfig = {
   enabled: true,
-  idIncludes: ['ALL'],
+  idBonly: [],
+  groupBonly: [],
   idExcludes: [],
-  groupIncludes: ['ALL'],
+  idIncludes: ['ALL'],
   groupExcludes: [],
+  groupIncludes: ['ALL'],
 }
 
 let abSelector
@@ -29,10 +31,12 @@ test('configuration', (t) => {
   t.deepEqual(abSelector.getConfiguration(), defaultConfig)
   const testConfig = {
     enabled: false,
-    idIncludes: [1,2],
-    idExcludes: [3,4],
+    idBonly: [0,1],
+    groupBonly: [1,2],
+    idExcludes: [2,3],
+    idIncludes: [3,4],
+    groupExcludes: [4,5],
     groupIncludes: [5,6],
-    groupExcludes: [7,8],
   }
   t.deepEqual(abSelector.setConfiguration(testConfig), testConfig)
   t.deepEqual(abSelector.getConfiguration(), testConfig)
@@ -51,7 +55,7 @@ test('default config, id ALL, no group provided', (t) => {
   t.is(abSelector.getAB(3), 'A')
 })
 
-test('default config, id included, no group provided', (t) => {
+test('idIncludes, no group provided', (t) => {
   abSelector = new ABTestSelector({
     idIncludes: [1],
   })
@@ -59,7 +63,7 @@ test('default config, id included, no group provided', (t) => {
   t.is(abSelector.getAB(2), 'A')
 })
 
-test('default config, id included and excluded no group provided', (t) => {
+test('idIncludes and idExcludes no group provided', (t) => {
   abSelector = new ABTestSelector({
     idIncludes: [1],
     idExcludes: [1],
@@ -68,7 +72,7 @@ test('default config, id included and excluded no group provided', (t) => {
   t.is(abSelector.getAB(2), 'A')
 })
 
-test('default config, id excluded no group provided', (t) => {
+test('idIncludes no group provided', (t) => {
   abSelector = new ABTestSelector({
     idExcludes: [1],
   })
@@ -81,7 +85,7 @@ test('default config, id, group ALL', (t) => {
   t.is(abSelector.getAB(3, 2), 'A')
 })
 
-test('default config, id, group included', (t) => {
+test('groupIncludes, id and group provided', (t) => {
   abSelector = new ABTestSelector({
     groupIncludes: [1],
   })
@@ -89,7 +93,7 @@ test('default config, id, group included', (t) => {
   t.is(abSelector.getAB(1, 2), 'A')
 })
 
-test('default config, id, group excluded', (t) => {
+test('groupExcludes, id and group provided', (t) => {
   abSelector = new ABTestSelector({
     groupExcludes: [1],
   })
@@ -97,7 +101,7 @@ test('default config, id, group excluded', (t) => {
   t.is(abSelector.getAB(1, 2), 'B')
 })
 
-test('default config, id, group included and excluded', (t) => {
+test('groupIncludes and groupExcludes, id and group provided', (t) => {
   abSelector = new ABTestSelector({
     groupIncludes: [1,2],
     groupExcludes: [1],
@@ -108,14 +112,17 @@ test('default config, id, group included and excluded', (t) => {
 
 test('full settings', (t) => {
   abSelector = new ABTestSelector({
+    //precedence order
     enabled: true,
-    idIncludes: ['ALL'],
+    idBonly: [2],
+    groupBonly: [3],
     idExcludes: [1],
-    groupIncludes: ['ALL'],
+    idIncludes: ['ALL'],
     groupExcludes: [1],
+    groupIncludes: ['ALL'],
   })
   t.is(abSelector.getAB(1, 1), 'A')
-  t.is(abSelector.getAB(2, 1), 'A')
+  t.is(abSelector.getAB(2, 1), 'B')
   t.is(abSelector.getAB(3, 1), 'A')
   t.is(abSelector.getAB(4, 1), 'A')
   t.is(abSelector.getAB(1, 2), 'A')
@@ -123,10 +130,11 @@ test('full settings', (t) => {
   t.is(abSelector.getAB(3, 2), 'A')
   t.is(abSelector.getAB(4, 2), 'A')
   t.is(abSelector.getAB(5, 2), 'B')
+  t.is(abSelector.getAB(1, 3), 'B')
 })
 
-// 266,344 / second
-// 4 microseconds each
+// ~275,037 / second
+// ~3.6 microseconds each
 test.skip('perf', () => {
   let cnt = 0
   let ab = 'a'

@@ -1,6 +1,8 @@
 # AB test selector
 
-Consistently assigns ids to A or B group for A/B testing.
+Consistently assigns ids/keys to A or B group for A/B testing. An id may be user, session, request, etc.
+
+Groups ids/keys can be utilized for A/B selection in multi-tenant system where testing to a subset of tenants is desired. Groups are also useful for monotonically increasing the A/B test treatment population size, i.e., start with a small subset to validate, then increase over time.
 
 By convention, A should be old treatment, B should be the new treatment for simplicity and consistency. Not required though.
 
@@ -17,8 +19,8 @@ Node 10+
 On 2019 HP x360 Spectre with Ubuntu 18.04.3 64 bit  
 Intel® Core™ i7-8565U CPU @ 1.80GHz × 8
 
-~266K AB selections / second  
-~4 microseconds each
+~275K AB selections / second  
+~3.6 microseconds each selection
 
 ## Getting started
 
@@ -30,26 +32,31 @@ npm i -S ab-test-selector
 
 ## Configuration Options
 
-Configuration allows excluding particular ids by passing an array of ids to exclude in idExcludes.
-Only specific ids can be included in the A/B test by passing an array of ids to include in idIncludes.
-Group/organization/etc. ids can be included/excluded with groupIncludes and groupExcludes repectively.
-The idIncludes and groupIncludes are both set to ['ALL'] by default.
+Configuration options with defaults that can be passed to the constructor.  
 
-Configuration option with defaults that can be passed to the constructor:
 ```javascript
 {
-  enabled: true,
-  idIncludes: ['ALL'],
-  idExcludes: [],
-  groupIncludes: ['ALL'],
-  groupExcludes: [],
+  enabled: true, // enable/disable A/B selection, false always returns A
+  idBonly: [], // ALL or specific ids/keys to always get B
+  groupBonly: [], // ALL or specific group ids/keys to always get B
+  idExcludes: [], // specific ids/keys to exclude from A/B, get A only
+  idIncludes: ['ALL'], // ALL or specific ids/keys to include in A/B
+  groupExcludes: [], // specific group ids/keys to exclude from A/B, get A only
+  groupIncludes: ['ALL'], // ALL or specific groups ids/keys to include in A/B
 }
 ```
-To change only some configuration parameters, pass only those configuration arguments to the constructor.
+
+If statistical significance is achieved and B wins, set the idBonly or groupBonly to ['ALL'] to route all users to the B treatment until the implementation is updated to remove the A/B test selector.
+
+Partial configuration will use defaults for unspecified properties.  
 
 There are getEnabled() and setEnabled(boolean) methods.
-There are getConfiguration() and setConfiguration(config) methods that allow setting all configuration.
+The getConfiguration() and setConfiguration(config) methods allow setting full or partial configuration dynamically while executing.
 
+Listed above in order of evaluation precedence, first definitive resolution is returned.  
+The precedence is hard-coded, changing the order here does not change the precedence.  
+
+The arrays are converted to Sets internally for performance in case large lists are needed.  
 
 ## AB on user ID, for all users
 
