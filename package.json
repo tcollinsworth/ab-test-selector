@@ -1,6 +1,6 @@
 {
   "name": "ab-test-selector",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Consistently assigns by argument to A or B if enabled, and set to ALL or argument in include list and not in exclude list",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,10 @@
   },
   "author": "Troy Collinsworth",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tcollinsworth/kafka-publisher.git"
+  },
   "dependencies": {
     "esm": "^3.2.25",
     "md5": "^2.2.1"
