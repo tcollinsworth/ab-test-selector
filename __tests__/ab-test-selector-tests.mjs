@@ -1,6 +1,8 @@
-import { serial as test } from 'ava'
+import ava from 'ava'
 
-import ABTestSelector from '../index'
+import { ABTestSelector } from '../index.mjs'
+
+const test = ava.serial
 
 const defaultConfig = {
   enabled: true,
@@ -31,19 +33,19 @@ test('configuration', (t) => {
   t.deepEqual(abSelector.getConfiguration(), defaultConfig)
   const testConfig = {
     enabled: false,
-    idBonly: [0,1],
-    groupBonly: [1,2],
-    idExcludes: [2,3],
-    idIncludes: [3,4],
-    groupExcludes: [4,5],
-    groupIncludes: [5,6],
+    idBonly: [0, 1],
+    groupBonly: [1, 2],
+    idExcludes: [2, 3],
+    idIncludes: [3, 4],
+    groupExcludes: [4, 5],
+    groupIncludes: [5, 6],
   }
   t.deepEqual(abSelector.setConfiguration(testConfig), testConfig)
   t.deepEqual(abSelector.getConfiguration(), testConfig)
 })
 
 test('disable always returns A', (t) => {
-  abSelector = new ABTestSelector({enabled: false})
+  abSelector = new ABTestSelector({ enabled: false })
   t.is(abSelector.getAB(1), 'A')
   t.is(abSelector.getAB(2), 'A')
   t.is(abSelector.getAB(3), 'A')
@@ -103,7 +105,7 @@ test('groupExcludes, id and group provided', (t) => {
 
 test('groupIncludes and groupExcludes, id and group provided', (t) => {
   abSelector = new ABTestSelector({
-    groupIncludes: [1,2],
+    groupIncludes: [1, 2],
     groupExcludes: [1],
   })
   t.is(abSelector.getAB(1, 1), 'A')
@@ -112,7 +114,7 @@ test('groupIncludes and groupExcludes, id and group provided', (t) => {
 
 test('full settings', (t) => {
   abSelector = new ABTestSelector({
-    //precedence order
+    // precedence order
     enabled: true,
     idBonly: [2],
     groupBonly: [3],
@@ -138,10 +140,12 @@ test('full settings', (t) => {
 test.skip('perf', () => {
   let cnt = 0
   let ab = 'a'
-  for (let i=0;i<1000000000;i++) {
+  for (let i = 0; i < 1000000000; i++) {
     ++cnt
     ab = abSelector.getAB(i, 2)
-    if (Date.now() % 1000 == 0) console.log(cnt, ab)
+    // eslint-disable-next-line no-console
+    if (Date.now() % 1000 === 0) console.log(cnt, ab)
   }
+  // eslint-disable-next-line no-console
   console.log(cnt, ab)
 })

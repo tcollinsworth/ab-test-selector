@@ -1,6 +1,6 @@
 import md5 from 'md5'
 
-export default class ABTestSelector {
+export class ABTestSelector {
   constructor(config = {}) {
     // Below is order of evaluation precedence, first definitive resolution is returned
     this.setConfiguration({
