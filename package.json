@@ -1,6 +1,6 @@
 {
   "name": "ab-test-selector",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Consistently assigns by argument to A or B test pool if enabled, also supports include and exclude lists",
   "main": "index.js",
   "scripts": {
