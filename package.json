@@ -1,15 +1,14 @@
 {
   "name": "ab-test-selector",
-  "version": "2.0.1",
-  "type": "module",
-  "description": "Consistently assigns by argument to A or B if enabled, and set to ALL or argument in include list and not in exclude list",
-  "main": "index.mjs",
+  "version": "3.0.0",
+  "description": "Consistently assigns by argument to A or B test pool if enabled, also supports include and exclude lists",
+  "main": "index.js",
   "scripts": {
-    "watchUnit": "NODE_ENV=DEBUG ava --fail-fast -v **/__tests__/**/*test*.mjs --watch",
+    "watchUnit": "NODE_ENV=DEBUG ava --fail-fast -v **/__tests__/**/*test*.js --watch",
     "ava": "ava",
-    "test": "ava --fail-fast -v __tests__/*tests.mjs",
-    "watchLint": "esw . --ext=js --ext=mjs --ignore-path .gitignore --fix --watch",
-    "lint": "eslint . --ext=js --ext=mjs --ignore-path .gitignore --fix"
+    "test": "ava --fail-fast -v __tests__/*tests.js",
+    "watchLint": "esw . --ext=js --ignore-path .gitignore --fix --watch",
+    "lint": "eslint . --ext=js --ignore-path .gitignore --fix"
   },
   "keywords": [
     "ab",
@@ -38,10 +37,10 @@
   },
   "devDependencies": {
     "ava": "^3.15.0",
-    "eslint": "^7.31.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-watch": "^7.0.0",
+    "eslint": "^8.11.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-watch": "^8.0.0",
     "ignore-styles": "^5.0.1"
   }
 }

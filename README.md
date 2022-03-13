@@ -1,17 +1,18 @@
 # AB test selector
 
-Consistently assigns ids/keys to A or B group for A/B testing. An id may be user, session, request, etc.  
-This implementation is simple to integrate and fast, avoiding delays and preventing users from randomly changing groups and polluting/skewing results.
+This library consistently assigns ids/keys to A or B test pool group for A/B testing. An id may be any valid number or string, i.e., userId, orgId/tenantId, etc.  
 
-Tenant/group ids/keys can be utilized for A/B selection in multi-tenant system where testing a subset of tenants is desired. Groups are also useful for monotonically increasing the size of population under test. Best practice is to initially start with a small subset to validate no significant negative effects and then increasing to full population.
+This library is simple to integrate and fast. It has very low latency and prevents users from randomly changing test pool groups which would pollute test results.
 
-This implementation does not need any remote request to select A/B. Remote requests will delay the response to the user and it might (will occasionally) fail. When failure, the user might (will 50% of the time) change groups which pollutes/skews the results unpredictably.
+Tenant or org ids can be utilized for A/B selection in multi-tenant systems. This is useful where testing a subset of tenants is desired. Groups are also useful for monotonically increasing the size of population under test. Best practice is to initially start with a small subset to validate no significant negative effects and then increasing to full population.
 
-By convention, A should be old treatment, B should be the new treatment for simplicity and consistency. Not required though.
+This implementation does not need any remote request to select A/B. Remote requests will increase latency to end users. Remote requests might (will occasionally) fail. When failure, the user might (will 50% of the time) change groups which pollutes/skews the test results unpredictably.
 
-By default all users are included in the AB test and selected for B by (hash(id) % 2 ? 'B' : 'A')
+By convention and for simplicity/consistency, the A group should be the existing behavior, B should be the new behavior (treatment). Not required though.
 
-"Data Trumps Intuition" "significant learning and return-on-investment (ROI) are seen when development teams listen to their customers, not to the Highest Paid Person’s Opinion (HiPPO)​", [ACM video presentation](http://videolectures.net/kdd07_kohavi_pctce/) (Flash) referencing Amazon and Microsoft controlled experiments - startling results that were very surprising.​ Political and economic environment can affect results, necessary to use A/B testing to determine causality. Amazon observed approximately a 1% drop in revenue per 100mS increase in page load times.
+By default, all users are included in the AB test. The assignment algorithm is (hash(id) % 2 ? 'B' : 'A').
+
+"Data Trumps Intuition" "significant learning and return-on-investment (ROI) are seen when development teams listen to their customers, not to the Highest Paid Person’s Opinion (HiPPO)", [Practical Guide to Controlled Experiments on the Web: Listen to Your Customers not to the HiPPO by Ronny Kohavi, PhD](http://videolectures.net/cikm08_kohavi_pgtce/)
 
 ## Requirements
 
@@ -49,9 +50,9 @@ Configuration options with defaults that can be passed to the constructor.
 }
 ```
 
-Ideally, expose/integrate configuration via environment variables following [12 Factor App](https://12factor.net/) or via central Service Discovery/configuration (etcd, consul, zookeeper, RDBMS, etc.) or REST endpoints to allow dynamically changing configuring while the system is running.
+Ideally, expose/integrate configuration via environment variables following [12 Factor App](https://12factor.net/). Alternatively expose via central Service Discovery/configuration (etcd, consul, zookeeper, RDBMS, etc.) or REST endpoints. This will allow dynamically changing configuring while the system is running.
 
-If statistical significance is achieved and B wins, set the idBonly or groupBonly to ['ALL'] to route all users to the B treatment until the implementation is updated to remove the A/B test selector.
+If statistical significance is achieved and B wins. So all users will then see B, set the idBonly or groupBonly to ['ALL']. This will route all users to the B treatment until the implementation is updated to remove the A/B test selector.
 
 Partial configuration will use defaults for unspecified properties.  
 
@@ -66,9 +67,9 @@ The arrays are converted to Sets internally for performance in case large lists 
 ## AB on user ID, for all users
 
 ```javascript
-import ABTestSelector from 'ab-test-selector'
+import AbTestSelector from 'ab-test-selector'
 
-const ab = new ABTestSelector()
+const ab = new AbTestSelector()
 
 if (ab.getAB(userId) == 'B') {
   computeOrShowTreatmentB() // change this to call your application code
@@ -92,9 +93,9 @@ ab.setConfiguration({
 ## AB only some user IDs, others all get A
 
 ```javascript
-import ABTestSelector from 'ab-test-selector'
+import AbTestSelector from 'ab-test-selector'
 
-const ab = new ABTestSelector({
+const ab = new AbTestSelector({
   idIncludes: [7,12]
 })
 
@@ -107,9 +108,9 @@ if (ab.getAB(userId) == 'B') {
 
 ## AB on user ID, exclude some groups/orgs/etc. which all get A
 ```javascript
-import ABTestSelector from 'ab-test-selector'
+import AbTestSelector from 'ab-test-selector'
 
-const ab = new ABTestSelector({
+const ab = new AbTestSelector({
   groupExcludes: [3,5] // exclude some group or org IDs, can be any scalar, like string or UUID, etc.
 })
 
@@ -122,9 +123,9 @@ if (ab.getAB(userId, groupId) == 'B') {
 
 ## AB on user ID, include only some groups/orgs/etc., others all get A
 ```javascript
-import ABTestSelector from 'ab-test-selector'
+import AbTestSelector from 'ab-test-selector'
 
-const ab = new ABTestSelector({
+const ab = new AbTestSelector({
   groupIncludes: [3,5] // exclude some group or org IDs, can be any scalar, like string or UUID, etc.
 })
 

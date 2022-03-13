@@ -1,6 +1,6 @@
 import ava from 'ava'
 
-import { ABTestSelector } from '../index.mjs'
+import { AbTestSelector } from '../index.js'
 
 const test = ava.serial
 
@@ -17,7 +17,7 @@ const defaultConfig = {
 let abSelector
 
 test.beforeEach(() => {
-  abSelector = new ABTestSelector()
+  abSelector = new AbTestSelector()
 })
 
 test('enable/disable', (t) => {
@@ -45,7 +45,7 @@ test('configuration', (t) => {
 })
 
 test('disable always returns A', (t) => {
-  abSelector = new ABTestSelector({ enabled: false })
+  abSelector = new AbTestSelector({ enabled: false })
   t.is(abSelector.getAB(1), 'A')
   t.is(abSelector.getAB(2), 'A')
   t.is(abSelector.getAB(3), 'A')
@@ -58,7 +58,7 @@ test('default config, id ALL, no group provided', (t) => {
 })
 
 test('idIncludes, no group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     idIncludes: [1],
   })
   t.is(abSelector.getAB(1), 'B')
@@ -66,7 +66,7 @@ test('idIncludes, no group provided', (t) => {
 })
 
 test('idIncludes and idExcludes no group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     idIncludes: [1],
     idExcludes: [1],
   })
@@ -75,7 +75,7 @@ test('idIncludes and idExcludes no group provided', (t) => {
 })
 
 test('idIncludes no group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     idExcludes: [1],
   })
   t.is(abSelector.getAB(1), 'A')
@@ -88,7 +88,7 @@ test('default config, id, group ALL', (t) => {
 })
 
 test('groupIncludes, id and group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     groupIncludes: [1],
   })
   t.is(abSelector.getAB(1, 1), 'B')
@@ -96,7 +96,7 @@ test('groupIncludes, id and group provided', (t) => {
 })
 
 test('groupExcludes, id and group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     groupExcludes: [1],
   })
   t.is(abSelector.getAB(1, 1), 'A')
@@ -104,7 +104,7 @@ test('groupExcludes, id and group provided', (t) => {
 })
 
 test('groupIncludes and groupExcludes, id and group provided', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     groupIncludes: [1, 2],
     groupExcludes: [1],
   })
@@ -113,7 +113,7 @@ test('groupIncludes and groupExcludes, id and group provided', (t) => {
 })
 
 test('full settings', (t) => {
-  abSelector = new ABTestSelector({
+  abSelector = new AbTestSelector({
     // precedence order
     enabled: true,
     idBonly: [2],
