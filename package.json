@@ -1,6 +1,6 @@
 {
   "name": "ab-test-selector",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Consistently assigns by argument to A or B test pool if enabled, also supports include and exclude lists",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,6 @@
     "url": "git@github.com:tcollinsworth/ab-test-selector.git"
   },
   "dependencies": {
-    "esm": "^3.2.25",
     "md5": "^2.3.0"
   },
   "devDependencies": {
@@ -41,6 +40,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-watch": "^8.0.0",
+    "esm": "^3.2.25",
     "ignore-styles": "^5.0.1"
   }
 }

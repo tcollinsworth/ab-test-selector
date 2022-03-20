@@ -17,6 +17,20 @@ By default, all users are included in the AB test. The assignment algorithm is (
 ## Requirements
 
 Node 10+
+ECMAScript module
+
+### ECMAScript module
+
+This library uses ECMAScript module features. It must be used with one of the following:
+
+- package.json with
+   ```
+   type: module
+   ```
+
+- or loaded from a javascript file with .mjs extension
+
+- or loaded after an esm shim, i.e., [esm](ttps://www.npmjs.com/package/esm) or [esm-wallaby](https://www.npmjs.com/package/esm-wallaby) which supports optional-chaining (elvis)
 
 ## Performance
 
