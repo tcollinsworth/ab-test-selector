@@ -1,8 +1,9 @@
 {
   "name": "ab-test-selector",
-  "version": "3.0.4",
+  "version": "4.0.0",
   "description": "Consistently assigns by argument to A or B test pool if enabled, also supports include and exclude lists",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "watchUnit": "NODE_ENV=DEBUG ava --fail-fast -v **/__tests__/**/*test*.js --watch",
     "ava": "ava",
@@ -19,11 +20,7 @@
     "multi-tenant"
   ],
   "engines": {
-    "node": ">=14.0.0"
-  },
-  "esm": {
-    "force": true,
-    "mode": "auto"
+    "node": ">=22.0.0"
   },
   "author": "Troy Collinsworth",
   "license": "MIT",
@@ -40,7 +37,6 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-watch": "^8.0.0",
-    "esm": "^3.2.25",
     "ignore-styles": "^5.0.1"
   }
 }
